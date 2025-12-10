@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "542773224115",
+    "project_id": "Al_Kholoud HR-e9d35",
+    "storage_bucket": "Al_Kholoud HR-e9d35.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542773224115:android:bc9bcfa52b1793d8d7c6c6",
+        "android_client_info": {
+          "package_name": "com.metacodex.elkhlod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNNWLgOC4ZkirURyZ1Xx9sv48AqMYXBV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

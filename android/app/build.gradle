@@ -1,0 +1,130 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '2'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.1'
+}
+
+
+
+
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (!keystorePropertiesFile.exists()) {
+    keystorePropertiesFile = rootProject.file('../key.properties')
+}
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
+android {
+    compileSdkVersion 36
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+                coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.metacodex.elkhlod"
+        namespace "com.metacodex.elkhlod"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 35
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+        signingConfigs {
+       release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+          }
+     }
+     
+    buildTypes {
+        release {
+            ndk {
+                debugSymbolLevel 'FULL'
+                
+            }
+            signingConfig signingConfigs.release
+
+        }
+    }
+
+
+    //  buildTypes {
+    //         debug {
+    //         ndk {
+    //             debugSymbolLevel 'FULL'
+    //         }
+    //     }
+    //      release {
+    //          signingConfig signingConfigs.release
+    //      }
+    //  }
+
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+
+     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.0"
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // Core library desugaring
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
+
+
+     // Import the Firebase BoM
+ implementation 'androidx.multidex:multidex:2.0.1'
+    implementation('com.google.android.exoplayer:exoplayer:2.14.1'){
+        exclude group: 'androidx.core' , module : 'core'
+        exclude group: 'androidx.media' , module : 'media'
+    }
+  // Add the dependency for the Firebase SDK for Google Analytics
+  // When using the BoM, don't specify versions in Firebase dependencies
+}
